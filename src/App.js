@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import useInput from "./hooks/inputHook";
+import React, { useEffect } from "react";
 import Nav from "./components/Nav";
 import Sidebar from "./components/Sidebar";
 import Footer from "./components/Footer";
 import Content from "./components/Content";
-import CrimeContext from "./contexts/collections/crimeData";
 import "halfmoon/css/halfmoon.min.css";
 import * as halfmoon from "halfmoon";
 import "./App.css";
@@ -15,7 +13,6 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 
 // make fonts and icons available overwhole app
 library.add(fab, fas, far);
-console.log({ fab, far, fas });
 
 function App() {
   useEffect(() => {

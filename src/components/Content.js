@@ -1,4 +1,4 @@
-import React, { useContext, useState, Fragment, memo } from "react";
+import React, {  useState, memo } from "react";
 import LoadingSpinner from "./Loading";
 import useInput from "../hooks/inputHook";
 import CrimeTypeTable from "./CrimeTypeTable";
@@ -20,15 +20,15 @@ let theftFromThePerson = [];
 let vehicleCrime = [];
 let violentCrime = [];
 let otherCrime = [];
-let locations = [];
 
 export default function Content() {
   const [state, setState] = useState({
     loading: undefined,
     useableData: undefined,
     error: undefined,
-    focusCrime: undefined,
   });
+
+  const [focus, setFocus] = useState([])
 
   let crimes = [];
 
@@ -83,7 +83,7 @@ export default function Content() {
         crimes = [...data];
         await pushData();
       };
-      (await coords.lat) != undefined && gotCoords();
+      (await coords.lat) !== undefined && gotCoords();
     } catch (error) {
       await setState({
         loading: undefined,
@@ -215,17 +215,22 @@ export default function Content() {
 
   const moreData = () => {
     return async (crime) => {
+    let locations = []
      let crimeType = state.useableData.find(({ name }) => name === crime);
-
-     return crimeType.crimes.map(crime => {
-       locations.push(crime.location.street.name)
+     let mappedLocations = crimeType.crimes.map(crime => crime.location.street.name)
+      mappedLocations.forEach(place => {
+        if(!locations.some(location => location.area === place)){
+          locations.push({area: place, count: 1})
+        }
+        else{
+          let existingPlace = locations.find(({area}) => area === place);
+          existingPlace.count++
+        }
      })
-       
-     
+     setFocus(locations)
     }
   };
 
- 
 
 
   const { value, bind, reset } = useInput("");
@@ -234,6 +239,7 @@ export default function Content() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     antiSocialBehaviour = [];
     bicycleTheft = [];
     burglary = [];
@@ -266,13 +272,12 @@ export default function Content() {
     });
   };
 
-
   return (
     <div className="content-wrapper">
       <div className="content">
         <header className="d-flex justify-content-center align-items-center">
           <section className="hero-header">
-            <h1>Check Now</h1>
+            <h1 className="text-white">Check Now</h1>
           </section>
         </header>
       </div>
@@ -305,10 +310,10 @@ export default function Content() {
       </div>
       <div className="content">
         <CrimeTypeTableWithSpinner
-          locations={locations}
           moreData={moreData(state)}
-          isLoading={state.loading}
           data={state.useableData}
+          focus={focus}
+          setFocus={setFocus}
         />
       </div>
     </div>

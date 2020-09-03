@@ -23,7 +23,7 @@ export default function Sidebar() {
         <div className="sidebar-divider"></div>
         <a href="/" className="sidebar-link sidebar-link-with-icon">
           <span className="sidebar-icon">
-            <i className="fa fa-terminal" aria-hidden="true"></i>
+            <FontAwesomeIcon icon={["fas", "door-closed"]}/>
           </span>
           About
         </a>
@@ -31,25 +31,25 @@ export default function Sidebar() {
         <div className="sidebar-divider"></div>
         <a href="/" className="sidebar-link sidebar-link-with-icon">
           <span className="sidebar-icon">
-            <i className="fa fa-folder-open-o" aria-hidden="true"></i>
+            <FontAwesomeIcon icon={["fas", "door-closed"]}/>
           </span>
           Home Security
         </a>
         <a href="/" className="sidebar-link sidebar-link-with-icon">
           <span className="sidebar-icon">
-            <i className="fa fa-table" aria-hidden="true"></i>
+            <FontAwesomeIcon icon={["fas", "user-shield"]}/>
           </span>
           Personal Protection
         </a>
         <a href="/" className="sidebar-link sidebar-link-with-icon">
           <span className="sidebar-icon">
-            <i className="fa fa-map-o" aria-hidden="true"></i>
+            <FontAwesomeIcon icon={["fas", "users"]}/>
           </span>
           Your Locale Force
         </a>
         <a href="/" className="sidebar-link sidebar-link-with-icon">
           <span className="sidebar-icon">
-            <i className="fa fa-commenting-o" aria-hidden="true"></i>
+            <FontAwesomeIcon icon={["fas", "info"]}/>
           </span>
           More Information
         </a>

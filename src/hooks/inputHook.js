@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 // * Reusable Hook for forms
-export default function useInput(initialValue) {
-const [value, setValue] = useState(initialValue)
+const useInput = (initialValue) => {
+const [value, setValue] = React.useState(initialValue)
     return{
         value,
         setValue,
@@ -12,3 +12,5 @@ const [value, setValue] = useState(initialValue)
         }
     }
 }
+
+export default useInput;
