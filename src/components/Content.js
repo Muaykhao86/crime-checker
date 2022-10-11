@@ -34,7 +34,7 @@ export default function Content() {
 
   let d = new Date();
   let month = d.getMonth();
-  let fmonth = month - 1 < 10 ? `0${month - 1}` : month - 1;
+  let fmonth = month - 2 < 10 ? `0${month - 2}` : month - 2;
   let year = d.getFullYear();
   let monthIs = [
     "January",
