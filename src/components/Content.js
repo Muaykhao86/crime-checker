@@ -34,6 +34,7 @@ export default function Content() {
 
   let d = new Date();
   let month = d.getMonth();
+  let fmonth = month - 1 < 10 ? `0${month - 1}` : month - 1;
   let year = d.getFullYear();
   let monthIs = [
     "January",
@@ -74,7 +75,7 @@ export default function Content() {
       lat: data.result.latitude,
       lng: data.result.longitude,
     };
-    let url = await `https://data.police.uk/api/crimes-street/allCrime?lat=${coords.lat}&lng=${coords.lng}&date=2020-07`;
+    let url = await `https://data.police.uk/api/crimes-street/allCrime?lat=${coords.lat}&lng=${coords.lng}&date=${year}-${fmonth}`;
 
     try {
       const gotCoords = async () => {
