@@ -37,24 +37,6 @@ export default function Content() {
   }
 
   const monthYear = formatMonthYear(data.month);
-  let d = new Date();
-  let month = d.getMonth();
-  let fmonth = month - 2 < 10 ? `0${month - 2}` : month - 2;
-  let year = d.getFullYear();
-  let monthIs = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
 
   const fetchCoords = async (value) => {
     let postCode = `https://api.postcodes.io/postcodes/${value
