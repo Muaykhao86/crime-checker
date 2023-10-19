@@ -18,6 +18,7 @@ let theftFromThePerson = [];
 let vehicleCrime = [];
 let violentCrime = [];
 let otherCrime = [];
+let monthYear = "";
 
 export default function Content() {
   const [state, setState] = useState({
@@ -35,8 +36,6 @@ export default function Content() {
     const date = new Date(dateString);
     return date.toLocaleDateString(undefined, options);
   }
-
-  const monthYear = formatMonthYear(data.month);
 
   const fetchCoords = async (value) => {
     let postCode = `https://api.postcodes.io/postcodes/${value
@@ -69,7 +68,7 @@ export default function Content() {
         const res = await fetch(url);
         const data = await res.json();
         crimes = [...data];
-        crimes[0] && (date = crimes[0].month);
+        crimes[0] && (monthYear = formatMonthYear(crimes[0].month));
         await pushData();
       };
       (await coords.lat) !== undefined && gotCoords();
@@ -271,11 +270,18 @@ export default function Content() {
       <div className="content">
         <h2 className="content-title">Check Crime In Your Area</h2>
         <p>
-          Enter your postcode and we will display the types of crimes that have
-          been commited in your approximate local area in <span>{monthYear}</span>.
+          Enter your postcode, and we'll show you the latest month's crime data for your local area, 
+          including the types of crimes committed.
           <br />
           You can then click the type of crime and discover which streets have
           been affected.
+          {monthYear && 
+            <>
+            <br /> 
+            Showing data for 
+            <span className="font-weight-bold"> {monthYear}</span>
+            </>
+            }
         </p>
       </div>
       <div className="content w-md-400">
