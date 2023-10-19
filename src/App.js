@@ -21,9 +21,11 @@ function App() {
 
   return (
     <>
-    
-    {/* Page Wrapper */}
-      <div data-sidebar-hidden="hidden" className="page-wrapper with-navbar with-sidebar with-navbar-fixed-bottom">
+      {/* Page Wrapper */}
+      <div
+        data-sidebar-hidden="hidden"
+        className="page-wrapper with-navbar with-sidebar with-navbar-fixed-bottom"
+      >
         {/* Alerts Need to Have Parent here */}
         <div className="sticky-alerts"></div>
         {/* NAvBar */}

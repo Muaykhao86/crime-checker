@@ -1,10 +1,8 @@
-import React, {  useState, memo } from "react";
+import React, { useState, memo } from "react";
 import LoadingSpinner from "./Loading";
 import useInput from "../hooks/inputHook";
 import CrimeTypeTable from "./CrimeTypeTable";
 import * as halfmoon from "halfmoon";
-import find from "array.prototype.find";
-
 
 let antiSocialBehaviour = [];
 let bicycleTheft = [];
@@ -28,27 +26,17 @@ export default function Content() {
     error: undefined,
   });
 
-  const [focus, setFocus] = useState([])
+  const [focus, setFocus] = useState([]);
 
   let crimes = [];
 
-  let d = new Date();
-  let month = d.getMonth();
-  let year = d.getFullYear();
-  let monthIs = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+  const formatMonthYear = (dateString) =>  {
+    const options = { year: "numeric", month: "long" };
+    const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, options);
+  }
+
+  const monthYear = formatMonthYear(data.month);
 
   const fetchCoords = async (value) => {
     let postCode = `https://api.postcodes.io/postcodes/${value
@@ -74,13 +62,14 @@ export default function Content() {
       lat: data.result.latitude,
       lng: data.result.longitude,
     };
-    let url = await `https://data.police.uk/api/crimes-street/allCrime?lat=${coords.lat}&lng=${coords.lng}&date=2020-07`;
+    let url = await `https://data.police.uk/api/crimes-street/allCrime?lat=${coords.lat}&lng=${coords.lng}`;
 
     try {
       const gotCoords = async () => {
         const res = await fetch(url);
         const data = await res.json();
         crimes = [...data];
+        crimes[0] && (date = crimes[0].month);
         await pushData();
       };
       (await coords.lat) !== undefined && gotCoords();
@@ -212,26 +201,24 @@ export default function Content() {
     });
   };
 
-
   const moreData = () => {
     return async (crime) => {
-    let locations = []
-     let crimeType = state.useableData.find(({ name }) => name === crime);
-     let mappedLocations = crimeType.crimes.map(crime => crime.location.street.name)
-      mappedLocations.forEach(place => {
-        if(!locations.some(location => location.area === place)){
-          locations.push({area: place, count: 1})
+      let locations = [];
+      let crimeType = state.useableData.find(({ name }) => name === crime);
+      let mappedLocations = crimeType.crimes.map(
+        (crime) => crime.location.street.name
+      );
+      mappedLocations.forEach((place) => {
+        if (!locations.some((location) => location.area === place)) {
+          locations.push({ area: place, count: 1 });
+        } else {
+          let existingPlace = locations.find(({ area }) => area === place);
+          existingPlace.count++;
         }
-        else{
-          let existingPlace = locations.find(({area}) => area === place);
-          existingPlace.count++
-        }
-     })
-     setFocus(locations)
-    }
+      });
+      setFocus(locations);
+    };
   };
-
-
 
   const { value, bind, reset } = useInput("");
 
@@ -285,8 +272,7 @@ export default function Content() {
         <h2 className="content-title">Check Crime In Your Area</h2>
         <p>
           Enter your postcode and we will display the types of crimes that have
-          been commited in your local area in the month of {monthIs[month - 2]}{" "}
-          {year}.
+          been commited in your approximate local area in <span>{monthYear}</span>.
           <br />
           You can then click the type of crime and discover which streets have
           been affected.
